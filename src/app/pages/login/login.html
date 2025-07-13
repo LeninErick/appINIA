@@ -1,1 +1,39 @@
-<p>login works!</p>
+<!-- src/app/pages/login/login.html -->
+<div class="login-card">
+  <h1>Iniciar sesión</h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Correo -->
+    <label>Email</label>
+    <input type="email" formControlName="email" placeholder="usuario@ejemplo.com" />
+
+    <small class="error"
+      *ngIf="submitted && form.controls.email.errors?.['required']">
+      El correo es obligatorio
+    </small>
+    <small class="error"
+      *ngIf="submitted && form.controls.email.errors?.['email']">
+      Ingresa un correo válido
+    </small>
+
+    <!-- Contraseña -->
+    <label>Contraseña</label>
+    <input type="password" formControlName="password" placeholder="******" />
+
+    <small class="error"
+      *ngIf="submitted && form.controls.password.errors?.['required']">
+      La contraseña es obligatoria
+    </small>
+    <small class="error"
+      *ngIf="submitted && form.controls.password.errors?.['minlength']">
+      Mínimo 6 caracteres
+    </small>
+
+    <small class="error"
+      *ngIf="submitted && form.errors?.['auth']">
+      {{ form.errors!['auth'] }}
+    </small>
+
+    <button type="submit">Ingresar</button>
+  </form>
+</div>

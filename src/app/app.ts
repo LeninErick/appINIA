@@ -16,12 +16,12 @@ export class App {
   protected readonly title = signal('appinia');
   
   
-  private auth = inject(Auth);
+  //private auth = inject(Auth);
 
   constructor() {
     //signOut(this.auth).then(() => console.log('✅ Sesión cerrada'));
     
-    
+    /*
     signInWithEmailAndPassword(this.auth, '123@gmail.com', 'admin1')
       .then((userCredential) => {
         console.log('✅ Usuario autenticado:', userCredential.user);
@@ -29,8 +29,7 @@ export class App {
       .catch((error) => {
         console.error('❌ Error al autenticar:', error);
       });
-      
+      */
   }
-  
 
 }
