@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalRuta } from './modal-ruta';
+import { Ruta } from './ruta';
 
-describe('ModalRuta', () => {
-  let component: ModalRuta;
-  let fixture: ComponentFixture<ModalRuta>;
+describe('Ruta', () => {
+  let component: Ruta;
+  let fixture: ComponentFixture<Ruta>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalRuta]
+      imports: [Ruta]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModalRuta);
+    fixture = TestBed.createComponent(Ruta);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

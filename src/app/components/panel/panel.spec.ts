@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalPanel } from './modal-panel';
+import { Panel } from './panel';
 
-describe('ModalPanel', () => {
-  let component: ModalPanel;
-  let fixture: ComponentFixture<ModalPanel>;
+describe('Panel', () => {
+  let component: Panel;
+  let fixture: ComponentFixture<Panel>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalPanel]
+      imports: [Panel]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModalPanel);
+    fixture = TestBed.createComponent(Panel);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

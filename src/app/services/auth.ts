@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut, UserCredential } from '@angular/fire/auth';
+import { Auth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -61,14 +61,50 @@ export class AuthService {
     }
   }
 
+  /*
   logout() {
     this.currentUser$.next(null);
     return signOut(this.auth);
+  }*/
+  
+  logout() {
+    this.currentUser$.next(null);
+    return signOut(this.auth).then(() => this.router.navigate(['/login']));
   }
 
   /** Obtener usuario actual como observable */
   getCurrentUser() {
     return this.currentUser$.asObservable();
+  }
+
+  initAuthListener() {
+    onAuthStateChanged(this.auth, async (user) => {
+      if (user) {
+        const docRef = doc(this.firestore, 'USUARIO', user.uid);
+        const snap = await getDoc(docRef);
+
+        if (!snap.exists()) {
+          console.warn('⚠️ Usuario no registrado en Firestore');
+          this.logout(); // Limpia sesión si no hay coincidencia
+          return;
+        }
+
+        const data = snap.data() as Usuario;
+        const usuario: Usuario = { id: user.uid, ...data };
+        this.currentUser$.next(usuario);
+
+        // Redirigir automáticamente solo si no estamos ya en su ruta
+        const rol = usuario.rolUsua.toLowerCase();
+        const currentUrl = this.router.url;
+
+        const targetRoute = `/${rol}`;
+        if (!currentUrl.startsWith(targetRoute)) {
+          this.router.navigate([targetRoute]);
+        }
+      } else {
+        this.currentUser$.next(null); // Usuario no autenticado
+      }
+    });
   }
   
 }

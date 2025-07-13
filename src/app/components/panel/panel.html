@@ -1,0 +1,9 @@
+<div class="panel">
+      <div *ngIf="authService.currentUser$ | async as usuario">
+        <img [src]="usuario.fotoUsua" alt="Foto de perfil" width="60" height="60" />
+        <div>{{ usuario.nombUsua }} {{ usuario.apelUsua }}</div>
+        <div>{{ usuario.rolUsua }}</div>
+      </div>
+
+      <button (click)="logout()">Cerrar sesión</button>
+    </div>
