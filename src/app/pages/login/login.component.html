@@ -1,0 +1,14 @@
+<p>login works!</p>
+<h2>Iniciar sesión</h2>
+<form (ngSubmit)="onSubmit()">
+  <label>Correo:
+    <input [(ngModel)]="correo" name="correo" required />
+  </label>
+  <br />
+  <label>Contraseña:
+    <input type="password" [(ngModel)]="clave" name="clave" required />
+  </label>
+  <br />
+  <button type="submit">Ingresar</button>
+</form>
+<p *ngIf="error" style="color:red">{{ error }}</p>
