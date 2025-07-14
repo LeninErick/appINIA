@@ -9,6 +9,7 @@ export class UiService {
 
   private coleccionActiva$ = new BehaviorSubject<string | null>(null);
   private rutaActiva$ = new BehaviorSubject<string[]>([]);
+  private idPadre$ = new BehaviorSubject<string | null>(null);
 
   setColeccion(nombre: string) {
     this.coleccionActiva$.next(nombre);
@@ -28,6 +29,22 @@ export class UiService {
 
   getRuta() {
     return this.rutaActiva$.asObservable();
+  }
+
+  getRutaActual() {
+    return this.rutaActiva$.value;
+  }
+
+  setIdPadre(id: string) {
+    this.idPadre$.next(id);
+  }
+
+  getIdPadre() {
+    return this.idPadre$.asObservable();
+  }
+
+  getIdPadreActual() {
+    return this.idPadre$.value;
   }
   
 }

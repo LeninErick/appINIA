@@ -1,1 +1,43 @@
-<p>Tabla</p>
+<div class="tabla-acciones">
+  <button class="boton-accion" (click)="abrirModalAgregar()">➕ Agregar</button>
+  <button class="boton-accion" (click)="abrirModalFiltrar()">🔍 Filtrar</button>
+</div>
+
+<div class="tabla-contenedor" *ngIf="!cargando">
+  <table class="tabla-fija">
+    <thead>
+      <tr>
+        <th>N°</th>
+        <th *ngFor="let col of columnas" (click)="ordenarPor(col)">
+          {{ col }}
+          <span *ngIf="ordenColumna === col">
+            {{ ordenAscendente ? '⬆️' : '⬇️' }}
+          </span>
+        </th>
+        <th>Acciones</th>
+        <th>Otros</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of datos; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td *ngFor="let col of columnas">
+          {{ formatear(item[col]) }}
+        </td>
+        <td>
+          <button class="boton-accion">Editar</button>
+          <button class="boton-accion">Eliminar</button>
+        </td>
+        <td>
+          <button *ngFor="let sub of subcolecciones"
+                  class="boton-sub"
+                  (click)="seleccionarSubcoleccion(item.id, sub)">
+            {{ sub }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="cargando">Cargando datos...</div>

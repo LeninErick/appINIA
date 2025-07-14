@@ -1,0 +1,61 @@
+.tabla-contenedor {
+  max-height: 60vh;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+}
+
+.tabla-fija {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-fija thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f3f3f3;
+  z-index: 1;
+  border-bottom: 2px solid #ccc;
+}
+
+.tabla-fija th,
+.tabla-fija td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.boton-sub {
+  background-color: #d0f0d0;
+  border: none;
+  padding: 4px 8px;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.boton-sub:hover {
+  background-color: #a0e0a0;
+}
+
+.boton-accion {
+  margin-right: 8px;
+  color: #007bff;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.boton-accion:hover {
+  text-decoration: underline;
+}
+
+.tabla-acciones {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.tabla-acciones button {
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}

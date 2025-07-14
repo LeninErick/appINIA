@@ -4,8 +4,8 @@
 
     <!-- Contenido principal -->
     <div style="flex: 1; padding: 20px; background-color: #f9f9f9;">
-        <app-ruta></app-ruta>
-        <app-tabla *ngIf="coleccion()" [coleccion]="coleccion()"></app-tabla>
+        <app-ruta ></app-ruta>
+        <app-tabla *ngIf="coleccion()" [coleccion]="coleccion()!"></app-tabla>
         <p *ngIf="!coleccion()">Selecciona una colección en el panel.</p>
     </div>
 </div>
