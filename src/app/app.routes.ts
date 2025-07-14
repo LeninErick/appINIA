@@ -15,7 +15,7 @@ export const appRoutes: Routes = [
     },
 
     { 
-        path: 'tecnico',
+        path: 'técnico',
         loadChildren: () => import('./pages/tecnico/tecnico.routes').then(m => m.TECNICO_ROUTES)
     },
 
