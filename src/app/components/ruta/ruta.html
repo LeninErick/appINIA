@@ -1,1 +1,6 @@
-<p>ruta works!</p>
+<div class="ruta-container">
+    <h2 class="ruta-titulo">{{ titulo }}</h2>
+    <p class="ruta-breadcrumb" *ngIf="breadcrumb.length > 0">
+        {{ breadcrumb.join(' > ') }}
+    </p>
+</div>

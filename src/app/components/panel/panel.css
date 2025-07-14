@@ -1,0 +1,46 @@
+.panel-izquierdo {
+      width: 250px;
+      padding: 1rem;
+      background-color: #f5f5f5;
+      border-right: 1px solid #ddd;
+      height: 100vh;
+    }
+
+    .encabezado-usuario {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .foto-usuario {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ccc;
+    }
+
+    .info-usuario .nombre {
+      font-weight: bold;
+    }
+
+    .info-usuario .rol {
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    .lista-accesos {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .lista-accesos li {
+      padding: 0.5rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .lista-accesos li:hover {
+      background-color: #e0e0e0;
+    }

@@ -26,21 +26,21 @@ export class App implements OnInit {
   }
 
   
-  /*
+  
   //private auth = inject(Auth);
 
   constructor() {
     //signOut(this.auth).then(() => console.log('✅ Sesión cerrada'));
     
     
-    signInWithEmailAndPassword(this.auth, '123@gmail.com', 'admin1')
+    /*signInWithEmailAndPassword(this.auth, '123@gmail.com', 'admin1')
       .then((userCredential) => {
         console.log('✅ Usuario autenticado:', userCredential.user);
       })
       .catch((error) => {
         console.error('❌ Error al autenticar:', error);
-      });
+      });*/
       
   }
-  */
+  
 }

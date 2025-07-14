@@ -37,7 +37,6 @@ export class Login {
 
     try {
       await this.authService.login(email!, password!);
-      this.router.navigate(['/']); // redirección provisional
     } catch (error: any) {
       console.error('❌ Error de login:', error);
       this.form.setErrors({ auth: error.message });

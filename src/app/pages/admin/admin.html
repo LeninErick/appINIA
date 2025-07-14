@@ -1,1 +1,11 @@
-<p>admin works!</p>
+<div class="admin-container">
+    <!-- Panel izquierdo -->
+    <app-panel></app-panel>
+
+    <!-- Contenido principal -->
+    <div class="admin-main">
+        <app-ruta></app-ruta>
+        <app-tabla *ngIf="coleccion()" [coleccion]="coleccion()"></app-tabla>
+        <p *ngIf="!coleccion()">Selecciona una colección en el panel.</p>
+    </div>
+</div>
