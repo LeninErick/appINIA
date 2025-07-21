@@ -11,6 +11,7 @@ export class UiService {
   private rutaActiva$ = new BehaviorSubject<string[]>([]);
   private idPadre$ = new BehaviorSubject<string | null>(null);
 
+
   setColeccion(nombre: string) {
     this.coleccionActiva$.next(nombre);
   }
@@ -45,6 +46,14 @@ export class UiService {
 
   getIdPadreActual() {
     return this.idPadre$.value;
+  }
+
+  mensaje(mensaje: string, tipo: 'info' | 'error' = 'info') {
+    if (tipo === 'error') {
+      alert(`❌ ${mensaje}`);
+    } else {
+      alert(`✅ ${mensaje}`);
+    }
   }
   
 }

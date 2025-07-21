@@ -1,0 +1,37 @@
+<div class="modal-backdrop">
+<div class="modal">
+  <h2>{{ modo === 'agregar' ? 'Agregar' : 'Editar' }} {{ coleccion }}</h2>
+
+  <form (ngSubmit)="guardar()">
+  <div class="form-grid">
+    <div *ngFor="let col of columnas" class="form-group">
+      <label>{{ col }}</label>
+
+      <select *ngIf="referencias[col]" [(ngModel)]="datos[col]" [name]="col">
+        <option [ngValue]="null">Seleccione una opción</option>
+        <option *ngFor="let op of opcionesReferencia[col]" [ngValue]="op.id">
+          {{ op.nombre || op.nombUsua || op.dniUsua || op.id }}
+        </option>
+      </select>
+
+      <input *ngIf="!referencias[col] && tipos[col] === 'date'" type="date"
+             [(ngModel)]="datos[col]" [name]="col" />
+
+      <input *ngIf="!referencias[col] && tipos[col] === 'boolean'" type="checkbox"
+             [(ngModel)]="datos[col]" [name]="col" />
+
+      <input *ngIf="!referencias[col] && tipos[col] === 'number'" type="number"
+             [(ngModel)]="datos[col]" [name]="col" />
+
+      <input *ngIf="!referencias[col] && !['date', 'number', 'boolean'].includes(tipos[col])"
+             type="text" [(ngModel)]="datos[col]" [name]="col" />
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" (click)="cerrar()">Cancelar</button>
+    <button type="submit">{{ modo === 'agregar' ? 'Guardar' : 'Actualizar' }}</button>
+  </div>
+  </form>
+</div>
+</div>

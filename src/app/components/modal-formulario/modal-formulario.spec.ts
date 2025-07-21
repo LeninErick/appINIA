@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalAgregar } from './modal-agregar';
+import { ModalFormulario } from './modal-formulario';
 
-describe('ModalAgregar', () => {
-  let component: ModalAgregar;
-  let fixture: ComponentFixture<ModalAgregar>;
+describe('ModalFormulario', () => {
+  let component: ModalFormulario;
+  let fixture: ComponentFixture<ModalFormulario>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalAgregar]
+      imports: [ModalFormulario]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModalAgregar);
+    fixture = TestBed.createComponent(ModalFormulario);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

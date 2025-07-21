@@ -3,7 +3,7 @@
   <button class="boton-accion" (click)="abrirModalFiltrar()">🔍 Filtrar</button>
 </div>
 
-<div class="tabla-contenedor" *ngIf="!cargando">
+<div class="tabla-contenedor" *ngIf="!cargando; else cargandoTpl">
   <table class="tabla-fija">
     <thead>
       <tr>
@@ -19,19 +19,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of datos; let i = index">
+      <tr *ngFor="let item of datos$ | async; let i = index">
         <td>{{ i + 1 }}</td>
         <td *ngFor="let col of columnas">
           {{ formatear(item[col]) }}
         </td>
         <td>
-          <button class="boton-accion">Editar</button>
-          <button class="boton-accion">Eliminar</button>
+          <button class="boton-accion" (click)="abrirModalEditar(item)">Editar</button>
+          <button class="boton-accion" (click)="eliminar(item)">Eliminar</button>
         </td>
         <td>
           <button *ngFor="let sub of subcolecciones"
-                  class="boton-sub"
-                  (click)="seleccionarSubcoleccion(item.id, sub)">
+            class="boton-sub"
+            (click)="seleccionarSubcoleccion(item.id, sub)">
             {{ sub }}
           </button>
         </td>
@@ -40,4 +40,8 @@
   </table>
 </div>
 
-<div *ngIf="cargando">Cargando datos...</div>
+<ng-template #cargandoTpl>
+  <div>Cargando datos...</div>
+</ng-template>
+
+<app-modal-formulario *ngIf="(modal.visible$ | async)"></app-modal-formulario>
