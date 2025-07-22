@@ -1,0 +1,1 @@
+import{$a as n,Ha as t,_a as o,hb as a}from"./chunk-4P4K733G.js";var s=class r{static \u0275fac=function(e){return new(e||r)};static \u0275cmp=t({type:r,selectors:[["app-error404"]],decls:2,vars:0,template:function(e,p){e&1&&(o(0,"p"),a(1,"error404 works!"),n())},encapsulation:2})};export{s as Error404};
