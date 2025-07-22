@@ -55,5 +55,24 @@ export class UiService {
       alert(`✅ ${mensaje}`);
     }
   }
+
+  subcoleccionesDe(coleccion: string): string[] {
+    switch (coleccion) {
+      case 'CUY':
+        return ['CONTROL', 'VENTA', 'RETIRO'];
+        break;
+
+      case 'PERSONAL':
+        return ['USUARIO'];
+        break;
+
+      case 'CAMADA':
+        return ['CRUZAMIENTO'];
+        break;
+
+      default:
+        return [];
+    }
+  }
   
 }

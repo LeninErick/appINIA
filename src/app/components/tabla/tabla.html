@@ -22,30 +22,33 @@
         </th>
         <th>Acciones</th>
         <th>Otros</th>
-      </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of datos$ | async; let i = index">
         <td>{{ i + 1 }}</td>
         <td *ngFor="let col of columnas">
           <ng-container *ngIf="esReferencia(col); else valorDirecto">
-            {{ item[col] | refDisplay:obtenerColeccion(col):obtenerCampo(col) | async }}
+            <ng-container *ngIf="item[col] as ref">
+              {{ ref | refDisplay:obtenerColeccion(col):obtenerCampo(col) | async }}
+            </ng-container>
           </ng-container>
           <ng-template #valorDirecto>
             {{ item[col] }}
           </ng-template>
         </td>
+
         <td>
           <button class="boton-accion" (click)="abrirModalEditar(item)">Editar</button>
           <button class="boton-accion" (click)="eliminar(item)">Eliminar</button>
         </td>
-        <td>
-          <button *ngFor="let sub of subcolecciones"
-            class="boton-sub"
-            (click)="seleccionarSubcoleccion(item.id, sub)">
-            {{ sub }}
-          </button>
+        <td *ngIf="subcolecciones.length > 0">
+          <ng-container *ngFor="let sub of subcolecciones">
+            <button (click)="seleccionarSubcoleccion(item.id, sub)">
+              {{ sub }}
+            </button>
+          </ng-container>
         </td>
+
       </tr>
     </tbody>
   </table>

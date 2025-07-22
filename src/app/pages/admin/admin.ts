@@ -16,6 +16,7 @@ import { UiService } from '../../services/ui';
 export class Admin {
 
   private ui = inject(UiService);
+  public uiPublic = inject(UiService);
   coleccion = signal<string | null>(null);
 
   constructor() {
@@ -25,5 +26,7 @@ export class Admin {
       });
     });
   }
+
+  
 
 }

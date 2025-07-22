@@ -50,6 +50,7 @@ export class Tabla implements OnInit {
   filtroActivo = false;
 
 
+
   constructor(private cdr: ChangeDetectorRef) {
 
     this.ui.getColeccion().subscribe(nombre => {
@@ -85,34 +86,52 @@ export class Tabla implements OnInit {
   }
 
   coleccionesPorCampo: Record<string, string> = {
-  idClie: 'CLIENTE',
-  idPers: 'PERSONAL',
-  idUsua: 'USUARIO',
-  idRaza: 'RAZA',
-  idPoza: 'POZA'
-  // Agrega más si los necesitas
-};
+    idClie: 'CLIENTE',
+    idPers: 'PERSONAL',
+    idUsua: 'USUARIO',
+    idRaza: 'RAZA',
+    idPoza: 'POZA',
+    idGalp: 'GALPON',
+    idCuy: 'CUY',
+    idCruz: 'CRUZAMIENTO',
+    idCont: 'CONTROL',
+    idCama: 'CAMADA',
+    idVent: 'VENTA',
+    idArbo: 'ARBOL',
+    idTrat: 'TRATAMIENTO',
+    idReti: 'RETIRO'
+      // Agrega más si los necesitas
+  };
 
 campoPorColeccion: Record<string, string> = {
   USUARIO: 'nombUsua',
   PERSONAL: 'nombPers',
   CLIENTE: 'nombClie',
   RAZA: 'nombRaza',
-  POZA: 'nombPoza'
+  POZA: 'nombPoza',
+  CUY: 'nombCuy',
+  ARBOL: 'nombArbo',
+  CRUZAMIENTO: 'nombCruz',
+  GALPON: 'nombGalp',
+  RETIRO: 'nombReti',
+  TRATAMIENTO: 'nombTrat',
+  VENTA: 'nombVent',
+  CONTROL: 'nombCont',
+  CAMADA: 'nombCama',
 };
 
-esReferencia(campo: string): boolean {
-  return Object.keys(this.coleccionesPorCampo).includes(campo);
-}
+  esReferencia(campo: string): boolean {
+    return Object.keys(this.coleccionesPorCampo).includes(campo);
+  }
 
-obtenerColeccion(campo: string): string {
-  return this.coleccionesPorCampo[campo];
-}
+  obtenerColeccion(campo: string): string {
+    return this.coleccionesPorCampo[campo];
+  }
 
-obtenerCampo(campo: string): string {
-  const col = this.obtenerColeccion(campo);
-  return this.campoPorColeccion[col] || 'nombre';
-}
+  obtenerCampo(campo: string): string {
+    const col = this.obtenerColeccion(campo);
+    return this.campoPorColeccion[col] || 'nombre';
+  }
 
   get columnasVisibles(): string[] {
     return Object.keys(this.datosOriginales[0] || {}).filter(col => col !== 'otros' && col !== 'acciones');
@@ -174,8 +193,6 @@ obtenerCampo(campo: string): string {
       }
     });
   }
-
-
 
   seleccionarSubcoleccion(idPadre: string, nombreSub: string) {
     const nuevaRuta = [...this.ui.getRutaActual(), nombreSub];

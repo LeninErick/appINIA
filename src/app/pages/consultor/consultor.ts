@@ -17,6 +17,7 @@ export class Consultor {
 
   private ui = inject(UiService);
   coleccion = signal<string | null>(null);
+  public uiPublic = inject(UiService);
 
   constructor() {
     effect(() => {

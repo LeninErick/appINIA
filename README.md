@@ -1,59 +1,63 @@
-# Appinia
+🐹 Sistema Web de Cuyes
+Este proyecto es un sistema web diseñado para gestionar, monitorear y visualizar información relacionada con el control y mejoramiento genético de cuyes en el Instituto Nacional de Innovación Agraria (INIA) – Chumbibamba, Talavera. La plataforma permite registrar datos de animales, cruzamientos, tratamientos, controles, ventas, y más, utilizando una estructura organizada en colecciones y subcolecciones de Firestore.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.0.
+🚀 Tecnologías y herramientas utilizadas
+Angular 20.1.0 – Framework frontend para construir la interfaz SPA.
 
-## Development server
+Firebase / Firestore – Plataforma backend para base de datos en tiempo real, autenticación y almacenamiento.
 
-To start a local development server, run:
+Tailwind CSS – Estilizado moderno y adaptable para una mejor experiencia de usuario.
 
-```bash
+RxJS & Signals – Reactividad avanzada en componentes y servicios.
+
+Shadcn/UI – Componentes estilizados reutilizables.
+
+Lucide Icons – Íconos modernos para mejorar la visualización.
+
+⚙️ Requisitos para instalar y ejecutar
+Antes de comenzar, asegúrate de tener instalado:
+
+Node.js (v18 o superior)
+
+Angular CLI (npm install -g @angular/cli)
+
+Una cuenta de Firebase con un proyecto creado y Firestore habilitado
+
+Pasos para instalación
+bash
+Copiar
+Editar
+# Clona el repositorio
+git clone https://github.com/tu-usuario/proyecto-monitor-cuyes.git
+cd proyecto-monitor-cuyes
+
+# Instala dependencias
+npm install
+
+# Configura tu entorno Firebase
+# (Agregar las credenciales del proyecto Firebase en el entorno de Angular)
+
+# Ejecuta el servidor de desarrollo
 ng serve
-```
+La aplicación estará disponible en http://localhost:4200.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+🧱 Arquitectura del sistema
+La aplicación está compuesta por los siguientes elementos clave:
 
-## Code scaffolding
+🔹 Componentes principales
+TablaComponent: Renderiza cualquier colección y permite aplicar filtros, ver subcolecciones y acciones.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+ModalFiltrarComponent: Permite seleccionar una columna y aplicar filtros por palabra clave.
 
-```bash
-ng generate component component-name
-```
+FormularioComponent: Vista dinámica para crear/editar registros según la colección activa.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+SubcoleccionComponent: Visualiza y gestiona subcolecciones como control, tratamiento, venta, etc.
 
-```bash
-ng generate --help
-```
+🔹 Servicios
+FirestoreService: Gestiona lectura, escritura y actualización de datos en Firebase.
 
-## Building
+UiService: Controla rutas internas, vistas activas, ID de documento padre y estado de carga.
 
-To build the project run:
+ModalService: Administra apertura y cierre de modales reutilizables.
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+RefDisplayPipe: Muestra campos de referencias (DocumentReference) recuperando dinámicamente los datos relacionados.
