@@ -1,6 +1,12 @@
 <div class="tabla-acciones">
   <button class="boton-accion" (click)="abrirModalAgregar()">➕ Agregar</button>
   <button class="boton-accion" (click)="abrirModalFiltrar()">🔍 Filtrar</button>
+  <button
+    class="boton-accion"
+    *ngIf="filtroActivo"
+    (click)="quitarFiltro()">
+    ❌ Quitar filtro
+  </button>
 </div>
 
 <div class="tabla-contenedor" *ngIf="!cargando; else cargandoTpl">
@@ -45,3 +51,10 @@
 </ng-template>
 
 <app-modal-formulario *ngIf="(modal.visible$ | async)"></app-modal-formulario>
+
+<app-modal-filtrar
+  *ngIf="mostrarModalFiltro"
+  [columnas]="columnasVisibles"
+  (aplicarFiltro)="filtrarTabla($event)"
+  (cancelarFiltro)="mostrarModalFiltro = false">
+</app-modal-filtrar>

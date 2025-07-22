@@ -8,12 +8,12 @@ import { catchError, Observable, of, tap } from 'rxjs';
 import { FirestoreService } from '../../services/firestore';
 import { ModalService } from '../../services/modal';
 import { ModalFormulario } from '../modal-formulario/modal-formulario';
-
-
+import { ModalFiltrar } from '../modal-filtrar/modal-filtrar';
+import { MODAL_CONFIGURACIONES } from '../../models/modal-configuraciones';
 
 @Component({
   selector: 'app-tabla',
-  imports: [CommonModule, ModalFormulario],
+  imports: [CommonModule, ModalFormulario, ModalFiltrar],
   templateUrl: './tabla.html',
   styleUrl: './tabla.css'
 })
@@ -37,6 +37,15 @@ export class Tabla implements OnInit {
   ordenAscendente = true;
 
   coleccionActiva = signal<string | null>(null);
+  
+  mostrarFiltro = false;
+  columnaFiltrada: string = '';
+  palabraClave: string = '';
+
+  mostrarModalFiltro = false;
+  registrosFiltrados: any[] = []; // lo que se muestra en la tabla
+  filtroActivo = false;
+
 
   constructor(private cdr: ChangeDetectorRef) {
 
@@ -68,6 +77,46 @@ export class Tabla implements OnInit {
       this.obtenerDatos(coleccion);
     }
 
+    this.registrosFiltrados = this.datosOriginales;
+
+  }
+
+  get columnasVisibles(): string[] {
+    return Object.keys(this.datosOriginales[0] || {}).filter(col => col !== 'otros' && col !== 'acciones');
+
+  }
+
+  filtrarTabla(event: { columna: string; palabra: string }) {
+    const { columna, palabra } = event;
+
+    if (!palabra || palabra.trim() === '') {
+      // Forzar orden descendente por esa columna si no hay palabra clave
+      this.filtroActivo = false;
+      this.ordenColumna = columna;
+      this.ordenAscendente = false;
+      this.ordenarPor(columna);
+      this.ui.mensaje(`Ordenado por ${columna} (descendente)`, 'info');
+    } else {
+      // Filtrar por coincidencia
+      this.registrosFiltrados = this.datosOriginales.filter((registro: any) =>
+        String(registro[columna] || '').toLowerCase().includes(palabra.toLowerCase())
+      );
+      this.datos$ = of(this.registrosFiltrados);
+      this.filtroActivo = true;
+      this.ui.mensaje(`Se encontraron ${this.registrosFiltrados.length} coincidencias`, 'info');
+    }
+
+    this.mostrarModalFiltro = false;
+  }
+
+  quitarFiltro() {
+    this.filtroActivo = false;
+    this.ordenColumna = '';
+    this.palabraClave = '';
+    this.columnaFiltrada = '';
+    this.registrosFiltrados = this.datosOriginales;
+    this.datos$ = of(this.datosOriginales); // 🔁 Volver a mostrar datos completos
+    this.ui.mensaje('Filtro eliminado. Tabla restaurada.', 'info');
   }
 
   obtenerDatos(coleccion: string) {
@@ -77,6 +126,11 @@ export class Tabla implements OnInit {
         this.datosOriginales = data;
         this.datos$ = of(data);
         this.cargando = false;
+
+        // ⚠️ Fuerza reinicio de columnas al cambiar colección
+        const claves = data.length ? Object.keys(data[0]).filter(k => k !== 'id') : [];
+        this.columnas = claves.slice(0, 4);
+
         this.cdr.detectChanges();
       },
       error: err => {
@@ -87,6 +141,7 @@ export class Tabla implements OnInit {
       }
     });
   }
+
 
 
   seleccionarSubcoleccion(idPadre: string, nombreSub: string) {
@@ -109,32 +164,39 @@ export class Tabla implements OnInit {
   }
 
   ordenarPor(columna: string) {
-    if (this.ordenColumna === columna) {
-      this.ordenAscendente = !this.ordenAscendente;
-    } else {
-      this.ordenColumna = columna;
-      this.ordenAscendente = true;
+  if (this.ordenColumna === columna) {
+    this.ordenAscendente = !this.ordenAscendente;
+  } else {
+    this.ordenColumna = columna;
+    this.ordenAscendente = this.filtroActivo ? false : true;
+  }
+
+  // 👇 Usar datos actuales dependiendo si hay filtro activo
+  const base = this.filtroActivo ? this.registrosFiltrados : this.datosOriginales;
+
+  const datosOrdenados = [...base].sort((a, b) => {
+    const valorA = a[columna];
+    const valorB = b[columna];
+
+    if (typeof valorA === 'number' && typeof valorB === 'number') {
+      return this.ordenAscendente ? valorA - valorB : valorB - valorA;
     }
 
-    const datosOrdenados = [...this.datosOriginales].sort((a, b) => {
+    const textoA = String(valorA).toLowerCase();
+    const textoB = String(valorB).toLowerCase();
 
-      const valorA = a[columna];
-      const valorB = b[columna];
+    return this.ordenAscendente
+      ? textoA.localeCompare(textoB)
+      : textoB.localeCompare(textoA);
+  });
 
-      if (typeof valorA === 'number' && typeof valorB === 'number') {
-        return this.ordenAscendente ? valorA - valorB : valorB - valorA;
-      }
-
-      const textoA = String(valorA).toLowerCase();
-      const textoB = String(valorB).toLowerCase();
-
-      return this.ordenAscendente
-        ? textoA.localeCompare(textoB)
-        : textoB.localeCompare(textoA);
-    });
-
-    this.datos$ = of(datosOrdenados);
+  // 🔁 Actualizar ambos si no hay filtro, solo uno si sí
+  if (this.filtroActivo) {
+    this.registrosFiltrados = datosOrdenados;
   }
+
+  this.datos$ = of(datosOrdenados);
+}
 
   abrirModalAgregar() {
     const coleccion = this.coleccionActiva(); // o simplemente this.coleccion si lo prefieres
@@ -148,11 +210,35 @@ export class Tabla implements OnInit {
     });
   }
 
+  
   abrirModalFiltrar() {
-    console.log('🟡 Abrir modal de filtrar');
-    this.ui.mensaje('Error al guardar', 'error');
-    this.modal.cerrar(false);
+    if (!this.datosOriginales.length) {
+      this.ui.mensaje('Aún no se han cargado los datos.', 'info');
+      return;
+    }
+
+    this.mostrarModalFiltro = true;
   }
+
+  /*
+  aplicarFiltro(columna: string, palabra: string) {
+    this.columnaFiltrada = columna;
+    this.palabraClave = palabra;
+
+    const filtrados = this.datosOriginales.filter(d =>
+      String(d[columna] ?? '').toLowerCase().includes(palabra.toLowerCase())
+    );
+
+    this.datos$ = of(filtrados);
+    this.mostrarFiltro = false;
+
+    if (filtrados.length === 0) {
+      this.ui.mensaje('No se encontraron coincidencias', 'info');
+    } else {
+      this.ui.mensaje(`Se encontraron ${filtrados.length} coincidencias`, 'info');
+    }
+  }
+  */
 
   abrirModalEditar(documento: any) {
     const coleccion = this.coleccionActiva();

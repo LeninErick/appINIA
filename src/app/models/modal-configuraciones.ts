@@ -1,4 +1,3 @@
-// src/app/config/modal-configuraciones.ts
 export const MODAL_CONFIGURACIONES: Record<string, {
     columnas: string[];
     tipos: Record<string, string>;
@@ -108,7 +107,7 @@ export const MODAL_CONFIGURACIONES: Record<string, {
             },
             referencias: {
             idUsua: 'USUARIO'
-            }
+            },
         },
 
         POZA: {
