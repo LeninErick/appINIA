@@ -51,8 +51,6 @@ ModalFiltrarComponent: Permite seleccionar una columna y aplicar filtros por pal
 
 FormularioComponent: Vista dinámica para crear/editar registros según la colección activa.
 
-SubcoleccionComponent: Visualiza y gestiona subcolecciones como control, tratamiento, venta, etc.
-
 🔹 Servicios
 FirestoreService: Gestiona lectura, escritura y actualización de datos en Firebase.
 
@@ -61,3 +59,9 @@ UiService: Controla rutas internas, vistas activas, ID de documento padre y esta
 ModalService: Administra apertura y cierre de modales reutilizables.
 
 RefDisplayPipe: Muestra campos de referencias (DocumentReference) recuperando dinámicamente los datos relacionados.
+
+Link de la página web:
+https://leninerick.github.io/appINIA/login
+
+
+Link del vídeo:
