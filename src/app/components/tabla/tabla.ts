@@ -10,13 +10,16 @@ import { ModalService } from '../../services/modal';
 import { ModalFormulario } from '../modal-formulario/modal-formulario';
 import { ModalFiltrar } from '../modal-filtrar/modal-filtrar';
 import { MODAL_CONFIGURACIONES } from '../../models/modal-configuraciones';
+import { RefDisplayPipe } from '../../pipes/ref-display-pipe';
+
 
 @Component({
   selector: 'app-tabla',
-  imports: [CommonModule, ModalFormulario, ModalFiltrar],
+  imports: [CommonModule, ModalFormulario, ModalFiltrar, RefDisplayPipe],
   templateUrl: './tabla.html',
   styleUrl: './tabla.css'
 })
+
 
 export class Tabla implements OnInit {
 
@@ -80,6 +83,36 @@ export class Tabla implements OnInit {
     this.registrosFiltrados = this.datosOriginales;
 
   }
+
+  coleccionesPorCampo: Record<string, string> = {
+  idClie: 'CLIENTE',
+  idPers: 'PERSONAL',
+  idUsua: 'USUARIO',
+  idRaza: 'RAZA',
+  idPoza: 'POZA'
+  // Agrega más si los necesitas
+};
+
+campoPorColeccion: Record<string, string> = {
+  USUARIO: 'nombUsua',
+  PERSONAL: 'nombPers',
+  CLIENTE: 'nombClie',
+  RAZA: 'nombRaza',
+  POZA: 'nombPoza'
+};
+
+esReferencia(campo: string): boolean {
+  return Object.keys(this.coleccionesPorCampo).includes(campo);
+}
+
+obtenerColeccion(campo: string): string {
+  return this.coleccionesPorCampo[campo];
+}
+
+obtenerCampo(campo: string): string {
+  const col = this.obtenerColeccion(campo);
+  return this.campoPorColeccion[col] || 'nombre';
+}
 
   get columnasVisibles(): string[] {
     return Object.keys(this.datosOriginales[0] || {}).filter(col => col !== 'otros' && col !== 'acciones');
@@ -268,6 +301,5 @@ export class Tabla implements OnInit {
       console.error(err);
     });
   }
-
 
 }

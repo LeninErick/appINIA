@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class FirestoreService {
   
+  constructor(public ref: Firestore) {}
+
   private firestore = inject(Firestore);
 
   // 🔼 Agregar documento a colección

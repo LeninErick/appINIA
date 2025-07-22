@@ -6,6 +6,7 @@ import { ModalService } from '../../services/modal';
 import { take } from 'rxjs';
 import { UiService } from '../../services/ui';
 import { MODAL_CONFIGURACIONES } from '../../models/modal-configuraciones';
+import { doc } from '@angular/fire/firestore';
 
 
 @Component({
@@ -75,8 +76,18 @@ export class ModalFormulario {
   }
 
   guardar(): void {
-    if (this.modo === 'agregar') {
-      this.fs.add(this.coleccion, this.datos).then(() => {
+  // 🔁 Procesar campos de referencia para que sean DocumentReference
+  for (const campo in this.referencias) {
+    const colRef = this.referencias[campo];
+    const idSeleccionado = this.datos[campo];
+
+    if (idSeleccionado && typeof idSeleccionado === 'string') {
+      this.datos[campo] = doc(this.fs.ref, `${colRef}/${idSeleccionado}`);
+    }
+  }
+
+  if (this.modo === 'agregar') {
+    this.fs.add(this.coleccion, this.datos).then(() => {
       this.ui.mensaje('Documento agregado exitosamente');
       this.modalService.notificarRecarga();
       this.cerrar();
@@ -84,20 +95,21 @@ export class ModalFormulario {
       this.ui.mensaje('Error al agregar documento', 'error');
     });
 
-    } else if (this.modo === 'editar') {
-      const id = this.datos['id'];
-      const datosCopia = { ...this.datos };
-      delete datosCopia['id'];
+  } else if (this.modo === 'editar') {
+    const id = this.datos['id'];
+    const datosCopia = { ...this.datos };
+    delete datosCopia['id'];
 
-      this.fs.update(this.coleccion, id, datosCopia).then(() => {
-        this.ui.mensaje('Documento actualizado');
-        this.modalService.notificarRecarga();
-        this.cerrar();
-      }).catch(() => {
-        this.ui.mensaje('Error al actualizar documento', 'error');
-      });
-    }
+    this.fs.update(this.coleccion, id, datosCopia).then(() => {
+      this.ui.mensaje('Documento actualizado');
+      this.modalService.notificarRecarga();
+      this.cerrar();
+    }).catch(() => {
+      this.ui.mensaje('Error al actualizar documento', 'error');
+    });
   }
+}
+
 
   cerrar(): void {
 
